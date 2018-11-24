@@ -2,16 +2,15 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 
+	"github.com/go-training/facebook-account-kit/config"
+
 	"github.com/gin-gonic/gin"
+	_ "github.com/joho/godotenv/autoload"
 	"gopkg.in/resty.v1"
 )
-
-// Initialize variables
-var app_id = "xxxx"
-var secret = "xxxx"
-var version = "v1.1"
 
 type AuthSuccess struct {
 	ID                      string `json:"id"`
@@ -29,6 +28,8 @@ type AuthError struct {
 }
 
 func main() {
+	conf := config.MustLoad()
+
 	router := gin.Default()
 	router.LoadHTMLGlob("templates/*")
 	//router.LoadHTMLFiles("templates/template1.html", "templates/template2.html")
@@ -39,9 +40,10 @@ func main() {
 	})
 	router.GET("/login", func(c *gin.Context) {
 		code := c.Query("code")
-		token_exchange_url := "https://graph.accountkit.com/" + version + "/access_token?" +
+		token_exchange_url := "https://graph.accountkit.com/" + conf.Facebook.Version + "/access_token?" +
 			"grant_type=authorization_code&code=" + code +
-			"&access_token=AA|" + app_id + "|" + secret
+			"&access_token=AA|" + conf.Facebook.AppID + "|" + conf.Facebook.Secret
+		log.Println(token_exchange_url)
 		authSuccess := &AuthSuccess{}
 		authError := &AuthError{}
 		resp, err := resty.R().
@@ -62,7 +64,7 @@ func main() {
 
 		if resp.StatusCode() == http.StatusOK && authSuccess.AccessToken != "" {
 			// Get Account Kit information
-			meURL := "https://graph.accountkit.com/" + version + "/me?" +
+			meURL := "https://graph.accountkit.com/" + conf.Facebook.Version + "/me?" +
 				"access_token=" + authSuccess.AccessToken
 			resp, err := resty.R().
 				SetHeader("Accept", "application/json").
