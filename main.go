@@ -27,6 +27,16 @@ type AuthError struct {
 	} `json:"error"`
 }
 
+type Me struct {
+	Email struct {
+		Address string `json:"address"`
+	} `json:"email"`
+	ID          string `json:"id"`
+	Application struct {
+		ID string `json:"id"`
+	} `json:"application"`
+}
+
 func main() {
 	conf := config.MustLoad()
 
@@ -62,13 +72,14 @@ func main() {
 		fmt.Printf("\nauthSuccess: %#v\n", authSuccess)
 		fmt.Printf("\nauthError: %#v\n", authError)
 
+		me := &Me{}
 		if resp.StatusCode() == http.StatusOK && authSuccess.AccessToken != "" {
 			// Get Account Kit information
 			meURL := "https://graph.accountkit.com/" + conf.Facebook.Version + "/me?" +
 				"access_token=" + authSuccess.AccessToken
 			resp, err := resty.R().
 				SetHeader("Accept", "application/json").
-				// SetResult(authSuccess).
+				SetResult(me).
 				SetError(authError).
 				Get(meURL)
 			fmt.Printf("\nError: %v", err)
@@ -77,10 +88,15 @@ func main() {
 			fmt.Printf("\nResponse Time: %v", resp.Time())
 			fmt.Printf("\nResponse Received At: %v", resp.ReceivedAt())
 			fmt.Printf("\nResponse Body: %v", resp) // or resp.String() or string(resp.Body())
+			fmt.Printf("\nme: %#v\n", me)
+			fmt.Printf("\nauthError: %#v\n", authError)
 		}
 
 		c.HTML(http.StatusOK, "success.html", gin.H{
 			"title": "facebook accountkit example",
+      "email": me.Email.Address,
+      "id": me.ID,
+      "applicationID": me.Application.ID,
 		})
 	})
 	router.Run(":8080")
