@@ -55,9 +55,8 @@ func main() {
 		})
 	})
 
-	// redire to [GET] /login page if login as email.
-	router.GET("/login", func(c *gin.Context) {
-		code := c.Query("code")
+	router.POST("/login", func(c *gin.Context) {
+		code := c.PostForm("code")
 		url := fmt.Sprintf(tokenExchangeURL, conf.Facebook.Version, code, conf.Facebook.AppID, conf.Facebook.Secret)
 		authSuccess := &AuthSuccess{}
 		authError := &AuthError{}

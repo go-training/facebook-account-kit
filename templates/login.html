@@ -28,12 +28,14 @@
 
   // login callback
   function loginCallback(response) {
+    console.log(response);
     if (response.status === "PARTIALLY_AUTHENTICATED") {
       var code = response.code;
       var csrf = response.state;
-      console.log(code);
-      console.log(csrf);
       // Send code to server to exchange for access token
+      document.getElementById("code").value = code;
+      document.getElementById("csrf").value = csrf;
+      document.getElementById("login_success").submit();
     }
     else if (response.status === "NOT_AUTHENTICATED") {
       // handle authentication failure
@@ -65,5 +67,9 @@
     );
   }
 </script>
+<form id="login_success" method="post" action="/login">
+  <input id="csrf" type="hidden" name="csrf" />
+  <input id="code" type="hidden" name="code" />
+</form>
 </body>
 </html>
