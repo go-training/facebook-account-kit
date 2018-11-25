@@ -51,6 +51,7 @@ func main() {
 	conf := config.MustLoad()
 
 	router := gin.Default()
+	router.Static("/images", "./images")
 	router.LoadHTMLGlob("templates/*")
 
 	// user login page

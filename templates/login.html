@@ -3,15 +3,24 @@
   <title>{{ .title }}</title>
   <!-- HTTPS required. HTTP will give a 403 forbidden response -->
   <script src="https://sdk.accountkit.com/en_US/sdk.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+    crossorigin="anonymous">
 </head>
 <body>
-<h1>{{ .title }}</h1>
-<input value="+886" id="country_code" />
-<input placeholder="phone number" id="phone_number" />
-<button onclick="smsLogin();">Login via SMS</button>
-<div>OR</div>
-<input placeholder="email" id="email" />
-<button onclick="emailLogin();">Login via Email</button>
+<div class="container">
+  <div style="margin: 0 0 20px 0;">
+    <img src="/images/screen.png">
+  </div>
+  <div class="alert alert-primary" role="alert">
+    {{ .title }}
+  </div>
+  <input value="+886" id="country_code" />
+  <input placeholder="phone number" id="phone_number" />
+  <button onclick="smsLogin();" class="btn btn-primary">Login via SMS</button>
+  <div>OR</div>
+  <input type="email" placeholder="email" id="email" />
+  <button onclick="emailLogin();" class="btn btn-primary">Login via Email</button>
+</div>
 <script>
   // initialize Account Kit with CSRF protection
   AccountKit_OnInteractive = function () {
