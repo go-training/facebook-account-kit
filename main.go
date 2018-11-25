@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 
 	"github.com/go-training/facebook-account-kit/config"
@@ -37,30 +36,32 @@ type Me struct {
 	} `json:"application"`
 }
 
+var tokenExchangeURL = "https://graph.accountkit.com/%s/access_token?" +
+	"grant_type=authorization_code&code=%s&&access_token=AA|%s|%s"
+
 func main() {
 	conf := config.MustLoad()
 
 	router := gin.Default()
 	router.LoadHTMLGlob("templates/*")
-	//router.LoadHTMLFiles("templates/template1.html", "templates/template2.html")
+
+	// user login page
 	router.GET("/", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "login.html", gin.H{
 			"title": "facebook accountkit example",
 		})
 	})
+
+	// redire to [GET] /login page if login as email.
 	router.GET("/login", func(c *gin.Context) {
 		code := c.Query("code")
-		token_exchange_url := "https://graph.accountkit.com/" + conf.Facebook.Version + "/access_token?" +
-			"grant_type=authorization_code&code=" + code +
-			"&access_token=AA|" + conf.Facebook.AppID + "|" + conf.Facebook.Secret
-		log.Println(token_exchange_url)
+		url := fmt.Sprintf(tokenExchangeURL, conf.Facebook.Version, code, conf.Facebook.AppID, conf.Facebook.Secret)
 		authSuccess := &AuthSuccess{}
 		authError := &AuthError{}
 		resp, err := resty.R().
-			SetHeader("Accept", "application/json").
 			SetResult(authSuccess).
 			SetError(authError).
-			Get(token_exchange_url)
+			Get(url)
 
 		// explore response object
 		fmt.Printf("\nError: %v", err)
@@ -69,8 +70,6 @@ func main() {
 		fmt.Printf("\nResponse Time: %v", resp.Time())
 		fmt.Printf("\nResponse Received At: %v", resp.ReceivedAt())
 		fmt.Printf("\nResponse Body: %v", resp) // or resp.String() or string(resp.Body())
-		fmt.Printf("\nauthSuccess: %#v\n", authSuccess)
-		fmt.Printf("\nauthError: %#v\n", authError)
 
 		me := &Me{}
 		if resp.StatusCode() == http.StatusOK && authSuccess.AccessToken != "" {
@@ -88,15 +87,13 @@ func main() {
 			fmt.Printf("\nResponse Time: %v", resp.Time())
 			fmt.Printf("\nResponse Received At: %v", resp.ReceivedAt())
 			fmt.Printf("\nResponse Body: %v", resp) // or resp.String() or string(resp.Body())
-			fmt.Printf("\nme: %#v\n", me)
-			fmt.Printf("\nauthError: %#v\n", authError)
 		}
 
 		c.HTML(http.StatusOK, "success.html", gin.H{
-			"title": "facebook accountkit example",
-      "email": me.Email.Address,
-      "id": me.ID,
-      "applicationID": me.Application.ID,
+			"title":         "facebook accountkit example",
+			"email":         me.Email.Address,
+			"id":            me.ID,
+			"applicationID": me.Application.ID,
 		})
 	})
 	router.Run(":8080")
