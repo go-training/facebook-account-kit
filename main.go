@@ -30,6 +30,11 @@ type Me struct {
 	Email struct {
 		Address string `json:"address"`
 	} `json:"email"`
+	Phone struct {
+		Number         string `json:"number"`
+		CountryPrefix  string `json:"country_prefix"`
+		NationalNumber string `json:"national_number"`
+	} `json:"phone"`
 	ID          string `json:"id"`
 	Application struct {
 		ID string `json:"id"`
@@ -64,19 +69,22 @@ func main() {
 			SetResult(authSuccess).
 			SetError(authError).
 			Get(url)
+		fmt.Printf("\nResponse Body: %v", resp)
 
 		if resp.StatusCode() == http.StatusOK && authSuccess.AccessToken != "" {
 			user := &Me{}
 			// Get Account Kit information
 			url := fmt.Sprintf(getMeURL, conf.Facebook.Version, authSuccess.AccessToken)
-			resty.R().
+			resp, _ := resty.R().
 				SetResult(user).
 				SetError(authError).
 				Get(url)
+			fmt.Printf("\nResponse Body: %v", resp)
 
 			c.HTML(http.StatusOK, "success.html", gin.H{
 				"title":         "facebook accountkit example",
 				"email":         user.Email.Address,
+				"phone":         user.Phone.Number,
 				"id":            user.ID,
 				"applicationID": user.Application.ID,
 			})
