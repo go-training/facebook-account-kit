@@ -1,6 +1,6 @@
 # facebook-account-kit
 
-Account Kit for Web (Golang)
+Account Kit for Web (Golang), see the [demo site](https://facebook-account-kit-example.herokuapp.com/).
 
 ## Setup facebook account kit information
 
