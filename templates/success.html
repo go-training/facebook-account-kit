@@ -1,12 +1,21 @@
 <html>
 <head>
 <title>{{ .title }} - {{ .email }}</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+  crossorigin="anonymous">
 </head>
 <body>
-<h1>{{ .title }}</h1>
-<h2>Email: {{ .email }}</h1>
-<h2>Phone: {{ .phone }}</h2>
-<h2>ID: {{ .id }}</h1>
-<h2>Application ID: {{ .applicationID }}</h1>
+<div class="container">
+  <div style="margin: 0 0 20px 0;">
+    <img src="/images/screen.png">
+  </div>
+  <div class="alert alert-primary" role="alert">
+    {{ .title }}
+  </div>
+  <h2>Email: {{ .email }}</h2>
+  <h2>Phone: {{ .phone }}</h2>
+  <h2>ID: {{ .id }}</h2>
+  <h2>Application ID: {{ .applicationID }}</h2>
+</div>
 </body>
 </html>
