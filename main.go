@@ -56,7 +56,9 @@ func main() {
 	// user login page
 	router.GET("/", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "login.html", gin.H{
-			"title": "facebook accountkit example",
+			"title":   "facebook accountkit example",
+			"appID":   conf.Facebook.AppID,
+			"version": conf.Facebook.Version,
 		})
 	})
 

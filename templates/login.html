@@ -17,8 +17,8 @@
   AccountKit_OnInteractive = function () {
     AccountKit.init(
       {
-        appId: "292071591442093",
-        version: "v1.1",
+        appId: "{{ .appID }}",
+        version: "{{ .version }}",
         state: "1234",
         fbAppEventsEnabled: true,
         redirect: "http://localhost:8080/login",
