@@ -36,8 +36,11 @@ type Me struct {
 	} `json:"application"`
 }
 
-var tokenExchangeURL = "https://graph.accountkit.com/%s/access_token?" +
-	"grant_type=authorization_code&code=%s&&access_token=AA|%s|%s"
+var (
+	tokenExchangeURL = "https://graph.accountkit.com/%s/access_token?" +
+		"grant_type=authorization_code&code=%s&&access_token=AA|%s|%s"
+	getMeURL = "https://graph.accountkit.com/%s/me?access_token=%s"
+)
 
 func main() {
 	conf := config.MustLoad()
@@ -58,43 +61,29 @@ func main() {
 		url := fmt.Sprintf(tokenExchangeURL, conf.Facebook.Version, code, conf.Facebook.AppID, conf.Facebook.Secret)
 		authSuccess := &AuthSuccess{}
 		authError := &AuthError{}
-		resp, err := resty.R().
+		resp, _ := resty.R().
 			SetResult(authSuccess).
 			SetError(authError).
 			Get(url)
 
-		// explore response object
-		fmt.Printf("\nError: %v", err)
-		fmt.Printf("\nResponse Status Code: %v", resp.StatusCode())
-		fmt.Printf("\nResponse Status: %v", resp.Status())
-		fmt.Printf("\nResponse Time: %v", resp.Time())
-		fmt.Printf("\nResponse Received At: %v", resp.ReceivedAt())
-		fmt.Printf("\nResponse Body: %v", resp) // or resp.String() or string(resp.Body())
-
-		me := &Me{}
 		if resp.StatusCode() == http.StatusOK && authSuccess.AccessToken != "" {
+			user := &Me{}
 			// Get Account Kit information
-			meURL := "https://graph.accountkit.com/" + conf.Facebook.Version + "/me?" +
-				"access_token=" + authSuccess.AccessToken
-			resp, err := resty.R().
-				SetHeader("Accept", "application/json").
-				SetResult(me).
+			url := fmt.Sprintf(getMeURL, conf.Facebook.Version, authSuccess.AccessToken)
+			resty.R().
+				SetResult(user).
 				SetError(authError).
-				Get(meURL)
-			fmt.Printf("\nError: %v", err)
-			fmt.Printf("\nResponse Status Code: %v", resp.StatusCode())
-			fmt.Printf("\nResponse Status: %v", resp.Status())
-			fmt.Printf("\nResponse Time: %v", resp.Time())
-			fmt.Printf("\nResponse Received At: %v", resp.ReceivedAt())
-			fmt.Printf("\nResponse Body: %v", resp) // or resp.String() or string(resp.Body())
-		}
+				Get(url)
 
-		c.HTML(http.StatusOK, "success.html", gin.H{
-			"title":         "facebook accountkit example",
-			"email":         me.Email.Address,
-			"id":            me.ID,
-			"applicationID": me.Application.ID,
-		})
+			c.HTML(http.StatusOK, "success.html", gin.H{
+				"title":         "facebook accountkit example",
+				"email":         user.Email.Address,
+				"id":            user.ID,
+				"applicationID": user.Application.ID,
+			})
+			return
+		}
 	})
+
 	router.Run(":8080")
 }
