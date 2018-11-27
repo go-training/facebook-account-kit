@@ -11,12 +11,14 @@ import (
 	"gopkg.in/resty.v1"
 )
 
+// AuthSuccess success response for get access token
 type AuthSuccess struct {
 	ID                      string `json:"id"`
 	AccessToken             string `json:"access_token"`
 	TokenRefreshIntervalSec int    `json:"token_refresh_interval_sec"`
 }
 
+// AuthError error response for get access token
 type AuthError struct {
 	Error struct {
 		Message   string `json:"message"`
@@ -26,6 +28,7 @@ type AuthError struct {
 	} `json:"error"`
 }
 
+// Me query user from access token
 type Me struct {
 	Email struct {
 		Address string `json:"address"`
