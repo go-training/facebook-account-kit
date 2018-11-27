@@ -18,6 +18,8 @@ change the `app_id` and `secret value`.
 
 ## Run the app in go v1.11 version
 
+Please make sure the go version in v1.11 using [go module](https://github.com/golang/go/wiki/Modules).
+
 ```sh
 $ go run main.go
 ```
