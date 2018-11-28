@@ -93,6 +93,7 @@ func main() {
 				"phone":         user.Phone.Number,
 				"id":            user.ID,
 				"applicationID": user.Application.ID,
+				"url":           url,
 			})
 			return
 		}

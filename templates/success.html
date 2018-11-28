@@ -16,6 +16,12 @@
   <h2>Phone: {{ .phone }}</h2>
   <h2>ID: {{ .id }}</h2>
   <h2>Application ID: {{ .applicationID }}</h2>
+  <div class="alert alert-primary" role="alert">
+    Get User Data by Token
+  </div>
+<code>
+$ curl -v {{ .url }} | jq
+</code>
 </div>
 </body>
 </html>
