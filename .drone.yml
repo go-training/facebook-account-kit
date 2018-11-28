@@ -10,7 +10,7 @@ steps:
   pull: true
   commands:
   - make revive
-  - 
+  - make build
 
 trigger:
   event:
