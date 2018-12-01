@@ -88,12 +88,14 @@ func main() {
 			fmt.Printf("\nResponse Body: %v", resp)
 
 			c.HTML(http.StatusOK, "success.html", gin.H{
-				"title":         "facebook accountkit example",
-				"email":         user.Email.Address,
-				"phone":         user.Phone.Number,
-				"id":            user.ID,
-				"applicationID": user.Application.ID,
-				"url":           url,
+				"title":          "facebook accountkit example",
+				"email":          user.Email.Address,
+				"phone":          user.Phone.Number,
+				"countryPrefix":  user.Phone.CountryPrefix,
+				"nationalNumber": user.Phone.NationalNumber,
+				"id":             user.ID,
+				"applicationID":  user.Application.ID,
+				"url":            url,
 			})
 			return
 		}
