@@ -2,6 +2,8 @@
 
 <img src="./images/screen.png">
 
+[![Build Status](https://cloud.drone.io/api/badges/go-training/facebook-account-kit/status.svg)](https://cloud.drone.io/go-training/facebook-account-kit)
+
 Account Kit for Web (Golang), see the [demo site](https://facebook-account-kit-example.herokuapp.com/).
 
 ## Setup facebook account kit information
