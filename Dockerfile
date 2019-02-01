@@ -23,4 +23,4 @@ EXPOSE 8080
 COPY --from=server_builder /app/templates /templates
 COPY --from=server_builder /app/images /images
 COPY --from=server_builder /facebook-account-kit /facebook-account-kit
-CMD ["/facebook-account-kit"]
+ENTRYPOINT ["/facebook-account-kit"]
