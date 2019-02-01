@@ -17,10 +17,10 @@ ENV GOARCH=amd64
 RUN go build -o /facebook-account-kit -tags netgo -ldflags '-w -extldflags "-static"' .
 
 ### Put the binary onto Heroku image
-FROM plugins/base:multiarch
+FROM heroku/heroku:16
 LABEL maintainer="Bo-Yi Wu <appleboy.tw@gmail.com>"
 EXPOSE 8080
 COPY --from=server_builder /app/templates /templates
 COPY --from=server_builder /app/images /images
 COPY --from=server_builder /facebook-account-kit /facebook-account-kit
-ENTRYPOINT ["/facebook-account-kit"]
+CMD ["/facebook-account-kit"]
