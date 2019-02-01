@@ -20,5 +20,7 @@ RUN go build -o /facebook-account-kit -tags netgo -ldflags '-w -extldflags "-sta
 FROM plugins/base:multiarch
 LABEL maintainer="Bo-Yi Wu <appleboy.tw@gmail.com>"
 EXPOSE 8080
+COPY --from=server_builder /app/templates /templates
+COPY --from=server_builder /app/images /images
 COPY --from=server_builder /facebook-account-kit /facebook-account-kit
 CMD ["/facebook-account-kit"]
