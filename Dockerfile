@@ -12,7 +12,9 @@ RUN go mod download
 FROM build_base AS server_builder
 # Here we copy the rest of the source code
 COPY . .
-RUN GOOS=linux GOARCH=amd64 go build -o /facebook-account-kit .
+ENV GOOS=linux
+ENV GOARCH=amd64
+RUN go build -o /facebook-account-kit -tags netgo -ldflags '-w -extldflags "-static"' .
 
 ### Put the binary onto Heroku image
 FROM plugins/base:multiarch
