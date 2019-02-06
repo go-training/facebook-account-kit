@@ -15,3 +15,6 @@ lint:
 		$(GO) get -u github.com/mgechev/revive; \
 	fi
 	revive -config .revive.toml ./... || exit 1
+
+clean:
+	$(GO) clean -modcache -cache -x -i ./...
