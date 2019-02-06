@@ -9,7 +9,7 @@ steps:
   image: golang:1.11
   pull: true
   commands:
-  - make revive
+  - make lint
   - make build
 
 trigger:
