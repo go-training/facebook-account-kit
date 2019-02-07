@@ -1,0 +1,7 @@
+{
+  "name": "Facebook Account Kit Demo",
+  "description": "Account Kit for Web Demo Using Golang",
+  "repository": "https://github.com/go-training/facebook-account-kit",
+  "logo": "https://facebook-account-kit-example.herokuapp.com/images/screen.png",
+  "keywords": ["account-kit", "facebook", "golang"]
+}
