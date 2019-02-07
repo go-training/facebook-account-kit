@@ -58,3 +58,7 @@ Deploy it!
 ```
 $ git push heroku master
 ```
+
+Add Config Vars in dashboard.
+
+<img src="./images/config-vars.png" />
