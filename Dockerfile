@@ -16,8 +16,8 @@ ENV GOOS=linux
 ENV GOARCH=amd64
 RUN go build -o /facebook-account-kit -tags netgo -ldflags '-w -extldflags "-static"' .
 
-### Put the binary onto Heroku image
-FROM heroku/heroku:16
+### Put the binary onto base image
+FROM plugins/base:linux-amd64
 LABEL maintainer="Bo-Yi Wu <appleboy.tw@gmail.com>"
 EXPOSE 8080
 COPY --from=server_builder /app/templates /templates
