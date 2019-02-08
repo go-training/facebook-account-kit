@@ -59,6 +59,12 @@ Deploy it!
 $ git push heroku master
 ```
 
+View the logs. For more information, see [View logs](https://devcenter.heroku.com/articles/logging#view-logs).
+
+```
+$ heroku logs --app {Heroku app name} --tail
+```
+
 Add Config Vars in dashboard.
 
 <img src="./images/config-vars.png" />
