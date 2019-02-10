@@ -3,5 +3,27 @@
   "description": "Account Kit for Web Demo Using Golang",
   "repository": "https://github.com/go-training/facebook-account-kit",
   "logo": "https://facebook-account-kit-example.herokuapp.com/images/screen.png",
-  "keywords": ["account-kit", "facebook", "golang"]
+  "keywords": ["account-kit", "facebook", "golang"],
+  "buildpacks": [
+    {
+      "url": "https://github.com/kr/heroku-buildpack-go.git"
+    },
+    {
+      "url": "heroku/go"
+    }
+  ],
+  "env": {
+    "TEST_FACEBOOK_APP_ID": {
+      "description": "Facebook - Account Kit App Secret",
+      "required": true
+    },
+    "TEST_FACEBOOK_SECRET": {
+      "description": "Facebook - Account Kit Client Token",
+      "required": true
+    },
+    "TEST_FACEBOOK_VERSION": {
+      "description": "Facebook - Account Kit API Version",
+      "required": true
+    }
+  }
 }
