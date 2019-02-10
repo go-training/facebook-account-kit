@@ -68,3 +68,7 @@ $ heroku logs --app {Heroku app name} --tail
 Add Config Vars in dashboard.
 
 <img src="./images/config-vars.png" />
+
+You can refer the facebook developer dashboard.
+
+<img src="./images/facebook-account-kit.png" />
