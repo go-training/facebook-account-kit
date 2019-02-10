@@ -69,6 +69,6 @@ Add Config Vars in dashboard.
 
 <img src="./images/config-vars.png" />
 
-You can refer the facebook developer dashboard.
+You can refer the [facebook developer dashboard](https://developers.facebook.com/apps/).
 
 <img src="./images/facebook-account-kit.png" />
